@@ -9,6 +9,11 @@ public class MainApp {
 		ApplicationContext ac = new GenericXmlApplicationContext("spring/context4.xml");
 		
 		Board board = Factory.getBoardInstance();
+		Board board2 = Factory.getBoardInstance();
+
+		System.out.println("board: " + board);
+		System.out.println("board2: " + board2);
+
 		board.boardWrite();
 	}
 

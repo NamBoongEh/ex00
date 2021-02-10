@@ -10,6 +10,6 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
-	<bean id="board" class="part4.BoardCafe"/>
+	<bean id="board" class="part4.BoardCafe" init-method="init" scope="prototype"/>
 	<bean id="write" class="part4.FreeBoardWrite"/>
 	</beans>
