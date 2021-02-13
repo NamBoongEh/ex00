@@ -33,7 +33,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-   <!--  Character set filter config -->
+	   <!--  Character set filter config -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>
