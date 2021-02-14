@@ -22,10 +22,6 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
-		<init-param>
-			<param-name>throwExceptionIfNoHandlerFound</param-name>
-			<param-value>true</param-value>
-		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 		
@@ -42,7 +38,7 @@
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
-        </init-param>         
+        </init-param>
         <!-- forceEncoding true 값을 주지 않을 경우 강제 인코딩 하지 않는다. -->
         <init-param>
             <param-name>forceEncoding</param-name>
