@@ -1,59 +1,183 @@
--- 표를 보고 테이블 작성
-create table test(
-id          number(5)
-,name       char(25)
-,salary     number(7,2)
-,title      char(25)    default '사원'
-,in_date    date        default 'SYSDATE'
-,dept_name  char(25)
-);
- 
- -- 각 부서별 평균 급여를 구하시오.
- 
- -- 각 부서별 직책이 사원인 직원들의 평균급여를 구하시오.
- 
- SELECT dept_id, avg(salary) FROM s_emp
- where title = '사원'
- group by dept_id
- order by dept_id;
- 
- -- 각 지역별 부서가 몇 개인지 구하시오.
- 
--- like로 바꿔보기
-select substr(title, -2), sum(salary) from s_emp
-where (substr(title, -2)!='부장')
-group by substr(title, -2)
-having sum(salary)>=8000
-order by substr(title, -2);
+create sequence seq_board;
 
-  -- 각 부서별 직책이 사원들인 직원들에 대해서만 평균 급여를 구하시오.
-  select dept_id, avg(salary)
-  from s_emp
-  where title='사원'
-  group by dept_id
-  order by dept_id;
-  
-  
-  -- 직원 테이블과 급여 테이블  join, 사원 이름, 급여, 해당 급여등급 나타내기
-  
-  select s_emp.name, s_emp.salary, salgrade.grade
-  from s_emp, salgrade
-  where s_emp.salary between salgrade.losal and salgrade.hisal;
-  
-  
-  -- 직원 테이블과 고객 테이블에서 사원의 이름, 사번, 그리고 각 사원의 담당고객 이름. 그리고 고객 없더라도 가져오기. 오름차순 정렬
-  
-  select s_emp.id, s_emp.name,  s_customer.name
-  from s_emp, s_customer
-  where s_emp.id(+) = s_customer.sales_rep_id
-  order by s_emp.id
-  ;
-  
-  
-  -- 직원 중 '김정미'와 같은 직책 사원 이름, 직책, 급여, 부서번호 나타내기(self join)
-  select s1.title, s2.name, s2.salary, s2.dept_id
-  from s_emp s1, s_emp s2
-  where (s1.name='김정미')
-  and s1.title=s2.title
-  and s2.name!='김정미'
-  ;
+create table tbl_board
+(bno number(10,0),
+title varchar2(200) not null,
+content varchar2(2000) not null,
+writer varchar2(50) not null,
+regdate date default sysdate,
+updatedate date default sysdate)
+;
+
+alter table tbl_board add constraint pk_board
+primary key(bno);
+
+drop table tbl_board_;
+
+insert into tbl_board (bno, title, content, writer)
+values (seq_board.nextval, '테스트 제목', '테스트 내용', '남붕어')
+;
+
+insert into tbl_board (bno, title, content, writer)
+values (seq_board.nextval, '테스트 제목', '테스트 내용', '남붕어')
+;
+
+select * from tbl_board where bno>0;
+
+
+
+
+-- 1번
+delete from emp_113;
+
+-- 2번
+select title
+from s_emp
+group by title;
+
+-- 3번
+select *
+from s_emp
+order by dept_id desc, salary asc
+;
+
+-- 4번 (20015년도 이전은 한 명도 없다)
+select *
+from s_emp
+where start_date < '2015.01.01'
+;
+
+-- 5번
+select *
+from s_emp
+where salary between 1000 and 5000
+;
+
+-- 6번
+select dept_id, avg(salary)
+from s_emp
+group by dept_id
+;
+
+-- 7번
+select dept_id, avg(salary)
+from s_emp
+where title = '사원'
+group by dept_id
+;
+
+-- 8번
+select region_id, count(*)
+from s_dept
+group by region_id
+;
+
+-- 9번
+select dept_id, avg(salary)
+from s_emp
+group by dept_id
+having avg(salary)>=2000
+;
+
+-- 10번
+select title, sum(salary)
+from s_emp
+group by title
+having title not like '%부장'
+and sum(salary)>=8000
+order by sum(salary) asc
+;
+
+-- 11번
+select dept_id, avg(salary)
+from s_emp
+where title = '사원'
+group by dept_id
+;
+
+-- 12번
+select dept_id, title, count(*)
+from s_emp
+group by dept_id, title
+;
+
+-- 13번
+select dept_id, count(*)
+from s_emp
+group by dept_id
+;
+
+-- 14번
+select dept_id, min(salary), max(salary)
+from s_emp
+group by dept_id
+having min(salary) != max(salary)
+;
+
+-- 15번
+select s_emp.name, s_emp.dept_id, s_dept.name
+from s_emp, s_dept
+where s_emp.dept_id = s_dept.id
+;
+
+-- 16번
+select s_emp.name, s_dept.name, s_region.name
+from s_emp, s_dept, s_region
+where s_emp.dept_id = s_dept.id
+and s_dept.region_id = s_region.id
+and s_region.name = '서울특별시'
+;
+
+
+-- 17번
+select s_emp.name, s_emp.salary, salgrade.grade
+from s_emp, salgrade
+where s_emp.salary between losal and hisal
+;
+
+
+-- 18번
+select s_emp.name, s_emp.id, s_customer.name
+from s_emp, s_customer
+where  s_emp.id(+) = s_customer.sales_rep_id
+order by s_emp.id
+;
+
+-- 19번
+select s2.name, s2.title, s2.salary, s2.dept_id
+from s_emp s1, s_emp s2
+where s1.name = '김정미'
+and s1.title = s2.title
+;
+
+-- 20번
+select title, avg(salary)
+from s_emp
+group by title
+having avg(salary) =
+(select min(avg(salary))
+from s_emp
+group by title)
+;
+
+-- 20번 확인용
+select title, avg(salary)
+from s_emp
+group by title
+;
+
+-- 21번
+select name, salary, decode(salary between 3000 and 4000 B between 2000 and 3000 C between 1000 and 2000 D) 
+from s_emp
+;
+
+-- 22번
+select s1.name, s1.salary, s1.dept_id, s2.dept_id
+from s_emp s1
+where s1.salary
+;
+
+select s2.dept_id, avg(s2.salary)
+from s_emp s2
+group by s2.dept_id
+;
