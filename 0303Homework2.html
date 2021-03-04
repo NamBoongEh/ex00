@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <select name="Asport" multiple>
+        <option id="야구">야구</option>
+        <option id="축구">축구</option>
+        <option id="농구">농구</option>
+        <option id="배구">배구</option>
+    </select>
+       
+    <input type="button" id=">>" name=">>" value=">>">
+    <input type="button" id="<<" name="<<" value="<<">
+    <input type="button" id=">" name=">" value=">">
+    <input type="button" id="<" name="<" value="<">
+
+    <select name="Bsport" multiple>
+        <option id="b[0]" hidden>야구</option>
+        <option id="b[1]" hidden>축구</option>
+        <option id="b[2]" hidden>농구</option>
+        <option id="b[3]" hidden>배구</option>
+    </select>
+    
+</body>
+
+<script>
+
+window.onload = function(){
+    //1. 참조얻기 
+    let Asport = document.getElementsByTagName('option');
+    //2.이벤트 등록
+    for(let i=0; i<Asport.length; i++){
+        Asport[i].onclick = click;
+    }
+
+
+
+}
+
+
+function click(){
+    alert(this.id);
+}
+
+
+        
+    //3. 각 단추별 이벤트 등록
+
+    //3-1. 오른쪽 이동(하나만)
+function move(from, to){
+    
+}
+
+    let go =document.getElementsByTagName("<").onclick = function(){
+        alert("하이이ㅠㅠ");        
+    };
+    //3-2. 오른쪽 이동(전체)
+    let go2 = document.getElementById("<<").onclick = function(){
+        alert("하이이ㅠㅠ");
+    };
+    //3-3. 왼쪽 이동(하나만)
+    let go3 = document.getElementById(">").onclick = function(){
+        alert("하이이ㅠㅠ");
+    };
+    //3-4. 왼쪽 이동(전체)
+    let go4 = document.getElementById(">>").onclick = function(){
+        alert("하이이ㅠㅠ");
+    };
+
+
+</script>
+
+
+</html>

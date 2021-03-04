@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="checkbox" id="전체" value="야구 농구 축구 배구" unchecked>전체<br>
+    <input type="checkbox" id="야구" value="야구" unchecked>야구<br>
+    <input type="checkbox" id="농구" value="농구" unchecked>농구<br>
+    <input type="checkbox" id="축구" value="축구" unchecked>축구<br>
+    <input type="checkbox" id="배구" value="배구" unchecked>배구<br>
+
+    <textarea name="" id="ta" col="30" rows="10"></textarea>
+
+    <script>
+        window.onload = function(){
+
+            //1. 참조얻기 
+            let cbxArr = document.getElementsByTagName('input');
+            let ta = document.getElementById('ta');
+
+            //2.이벤트 등록
+            for(let i=0; i<cbxArr.length; i++){
+                cbxArr[i].onclick = setTextArea;
+            }
+        }
+ 
+        //3. 이벤트 함수 입력
+        function setTextArea(){
+
+                if(this.id==="전체"){
+                    if(this.checked){
+                        ta.value = this.value;
+
+                        야구.checked = this.checked;
+                        농구.checked = this.checked;
+                        축구.checked = this.checked;
+                        배구.checked = this.checked;
+                    }
+                    else{
+                        ta.value = "";
+                        야구.checked = this.unchecked;
+                        농구.checked = this.unchecked;
+                        축구.checked = this.unchecked;
+                        배구.checked = this.unchecked;
+                    }
+                }
+                else{
+                    console.log(typeof ta.value);
+                    console.log(typeof this.value);
+                    console.log((ta.value).includes(this.value));
+                    
+                    if(this.checked){
+                        if(!((ta.value).includes(this.value)))
+                            ta.value += this.value + " ";
+                    }
+                    else{
+                        ta.value = ta.value.replace((this.value+" ") , "");
+                    }
+                }
+        }
+
+    </script>
+</body>
+</html>
