@@ -5,74 +5,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        select{
+            width : 50px;
+            height: 80px;
+        }
+
+    </style>
 </head>
 <body>
     
-    <select name="Asport" multiple>
-        <option id="야구">야구</option>
-        <option id="축구">축구</option>
-        <option id="농구">농구</option>
-        <option id="배구">배구</option>
+    <select name="leftbox" multiple>
+        <option name="option" id="baseball">야구</option>
+        <option name="option" id="football">축구</option>
+        <option name="option" id="basketball">농구</option>
+        <option name="option" id="volleyball">배구</option>
     </select>
        
-    <input type="button" id=">>" name=">>" value=">>">
-    <input type="button" id="<<" name="<<" value="<<">
-    <input type="button" id=">" name=">" value=">">
-    <input type="button" id="<" name="<" value="<">
+    <button name="rightAll" value="&gt;&gt;" onclick="rightAll();">&gt;&gt;</button>
+    <button name="leftAll" value="&lt;&lt;" onclick="leftAll();">&lt;&lt;</button>
+    <button name="right" value="&gt;" onclick="right();">&gt;</button>
+    <button name="left" value="&lt;" onclick="left();">&lt;</button>
 
-    <select name="Bsport" multiple>
-        <option id="b[0]" hidden>야구</option>
-        <option id="b[1]" hidden>축구</option>
-        <option id="b[2]" hidden>농구</option>
-        <option id="b[3]" hidden>배구</option>
+    <select name="rightbox" multiple>
     </select>
     
 </body>
 
 <script>
-
-window.onload = function(){
-    //1. 참조얻기 
-    let Asport = document.getElementsByTagName('option');
-    //2.이벤트 등록
-    for(let i=0; i<Asport.length; i++){
-        Asport[i].onclick = click;
-    }
+//1. select에서 내가 클릭한 내용을 찾는다.
+//2. 단추를 클릭한다.
+//3. 클릭한 내용이 이동한다.
 
 
+//to[0].appendChild(choose[0][0]);
 
+var leftbox = document.getElementsByName("leftbox");
+var rightbox = document.getElementsByName("rightbox");
+var num = leftbox[0].length;
+
+//2번
+function right(){
+    move(leftbox, rightbox)
 }
 
-
-function click(){
-    alert(this.id);
+function left(){
+    move(rightbox, leftbox)
 }
 
-
-        
-    //3. 각 단추별 이벤트 등록
-
-    //3-1. 오른쪽 이동(하나만)
-function move(from, to){
+//1. >> 단추를 누른다.
+//2. 모든 항목이 선택이 된다.
+//3. moveAll()로 가기위해 안에 담긴다.
+//4. movveAll()로 이동한다.
+//5. 모든 항목을 옮겨넣어준다.
+function rightAll(){
     
+    moveAll(leftbox, rightbox, num);
 }
 
-    let go =document.getElementsByTagName("<").onclick = function(){
-        alert("하이이ㅠㅠ");        
-    };
-    //3-2. 오른쪽 이동(전체)
-    let go2 = document.getElementById("<<").onclick = function(){
-        alert("하이이ㅠㅠ");
-    };
-    //3-3. 왼쪽 이동(하나만)
-    let go3 = document.getElementById(">").onclick = function(){
-        alert("하이이ㅠㅠ");
-    };
-    //3-4. 왼쪽 이동(전체)
-    let go4 = document.getElementById(">>").onclick = function(){
-        alert("하이이ㅠㅠ");
-    };
+function leftAll(){
+    moveAll(rightbox, leftbox, num);
+}
 
+//to[0].appendChild(choose[0][0]);
+
+//3번.
+//from에서 to로 가야한다.
+//무엇이? choose[0][i] 저거가 가야한다.
+function move(from, to){
+    //이제 모든 값은 다 나온 상황. 해야할건 옮겨주기만 하면 된다.
+    console.log('여기로 하나씩 이동합니다',to[0]);
+    to[0].appendChild(from[0][from[0].selectedIndex]);
+}
+
+//from에서 to로 '''''모든게''''' 가야한다.
+function moveAll(from, to, num){
+    //모든 값이 이동해야한다.
+    for(let i=0; i<num; i++){
+        to[0].appendChild(from[0][0]);
+    }
+}
 
 </script>
 
