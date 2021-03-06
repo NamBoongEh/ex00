@@ -7,35 +7,37 @@
     <title>Document</title>
 </head>
 
-
-
-
-
-
-
-<script>
-    function card() {
-        var card;
-        for(var i=0; i<51; i++) 
-            card = i + '.png';
-        return card;
+<style>
+    img{
+        width : 80px;
+        height: 120px;
     }
-    </script>
-
-<div>
-    <img id="card" src="">
-    <script>document.getElementById('card').src=card()</script>
-</div>
+</style>
 
 <body>
-    <button>보이기</button>
-    <button>뒤집기</button>
-    <button>섞어섞어섞림판!</button><br>
+    <button name="show">보이기</button>
+    <button name="flip">뒤집기</button>
+    <button name="shuffle">섞어섞어섞림판!</button>
+    <br>
+    <br>
     
-    
-    
+    <div>
+        <img id="card" src="">
+    </div>
+
 </body>
 
+<script>
+window.onload = function(){
+    createCard();
+}
+
+function createCard(){
+    for(let i=0; i<52; i++){
+        document.getElementById('card').crs.innerHTML = "<img src="+1+".png\">";
+    }
+}
+</script>
 
 
 </html>
