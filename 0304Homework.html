@@ -15,28 +15,71 @@
 </style>
 
 <body>
-    <button name="show">보이기</button>
-    <button name="flip">뒤집기</button>
-    <button name="shuffle">섞어섞어섞림판!</button>
+
+
+    <button name="show" onclick="show()">보이기</button>
+    <button name="flip" onclick="flip()">뒤집기</button>
+    <button name="shuffle" onclick="shuffle()">섞어섞어섞림판!</button>
     <br>
     <br>
-    
-    <div>
-        <img id="card" src="">
-    </div>
 
 </body>
 
 <script>
-window.onload = function(){
-    createCard();
+//1. 카드를 생성한다.
+//2. shuffle 버튼을 누르면 카드를 섞는다.
+//3. flip을 누르면 섞인 상태에서 카드를 뒤집는다.
+
+
+// 카드 초기 순서를 담을 배열 생성
+let cardNum = [];
+
+// 카드 생성
+for(let i=0; i<52; i++){
+    if(i%13==0 && i!=0)
+        document.write("<br>");
+    
+    cardNum[i] = i;    
+    document.write("<img id=card" + i + " src="+ i +".png onclick='flipcard(" + cardNum[i] + ")' padding=3px>" + " ");
+
 }
 
-function createCard(){
-    for(let i=0; i<52; i++){
-        document.getElementById('card').crs.innerHTML = "<img src="+1+".png\">";
+// 카드 뒷면으로 뒤집기
+function flip(){
+    for(let i=0; i<cardNum.length; i++)
+        document.getElementsByTagName('img')[i].src = "52.png";
+}
+
+// 카드 섞기
+function shuffle(){
+    let shuffleCard = new Array(cardNum.length);
+
+    for(let i=0; i<shuffleCard.length; i++)
+        shuffleCard[i] = i;
+
+        shuffleCard.sort((a,b) => Math.random()-0.5);
+
+    for(let i=0; i<cardNum.length; i++){
+        cardNum[i] = shuffleCard[i];
+        document.getElementsByTagName('img')[i].src = shuffleCard[i] + ".png";
     }
 }
+
+// 섞인채 그대로 카드 보이기
+function show(){
+    for(let i=0; i<cardNum.length; i++){
+        document.getElementsByTagName('img')[i].src = cardNum[i] + ".png"; 
+    }
+}
+
+let pair = [];
+
+// 클릭한 카드가 넘겨져야함
+function flipcard(open){
+    document.getElementById("card" + open).src = cardNum[open] + ".png";
+    pair.push = cardNum[open] + ".png";
+}
+
 </script>
 
 
