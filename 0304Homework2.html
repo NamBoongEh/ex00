@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    img{
+        width : 80px;
+        height: 120px;
+    }
+    input{
+        width : 50px;
+        height : 30px;
+        font-size: large;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <button name="show" onclick="show()">보이기</button>
+    <button name="flip" onclick="flip()">뒤집기</button>
+    <button name="shuffle" onclick="shuffle()">섞어섞어섞림판!</button>
+    점수판 <input id="score" value=0 readonly>
+    <br>
+    <br>
+
+</body>
+
+<script>
+//1. 카드를 생성한다.
+//2. shuffle 버튼을 누르면 카드를 섞는다.
+//3. flip을 누르면 섞인 상태에서 카드를 뒤집는다.
+
+
+// 카드 초기 순서를 담을 배열 생성
+let cardNum = [];
+let goal = 0;
+
+// 카드 생성
+for(let i=0; i<52; i++){
+    if(i%13==0 && i!=0)
+        document.write("<br>");
+    
+    cardNum[i] = i;    
+    document.write("<img id=card" + i + " src="+ i +".png onclick='flipcard(" + cardNum[i] + ")' padding=3px>" + " ");
+
+}
+
+// 카드 뒷면으로 뒤집기
+function flip(){
+    for(let i=0; i<cardNum.length; i++){
+        document.getElementsByTagName('img')[i].src = "52.png";
+        document.getElementsByTagName('img')[i].id = "card52";
+    }
+}
+
+// 카드 섞기
+function shuffle(){
+    let shuffleCard = new Array(cardNum.length);
+    document.getElementById('score').value = 0;
+    first = null;
+    second = null;
+    alreadyPair = [];
+
+    for(let i=0; i<shuffleCard.length; i++)
+        shuffleCard[i] = i;
+
+        shuffleCard.sort((a,b) => Math.random()-0.5);
+
+    for(let i=0; i<shuffleCard.length; i++)
+        cardNum[i] = shuffleCard[i];
+    show();
+}
+
+// 섞인채 그대로 카드 보이기
+function show(){
+    for(let i=0; i<cardNum.length; i++){
+        document.getElementsByTagName('img')[i].src = cardNum[i] + ".png"; 
+        document.getElementsByTagName('img')[i].id = "card" + cardNum[i];
+    }
+}
+
+//카드 넘길때 담을 두개의 변수 -> 두개의 배열
+let first;
+let second;
+
+
+// 클릭한 카드가 넘겨져야함
+function flipcard(open){
+    if(document.getElementsByTagName('img')[open].id === "card52"){
+        document.getElementsByTagName('img')[open].src = cardNum[open] + ".png";  
+        document.getElementsByTagName('img')[open].id = "card" + cardNum[open];  
+
+        if(first== null)
+            first = cardNum[open];
+        else if(second== null)
+            second = cardNum[open];
+        else{
+            check();
+            first = cardNum[open];
+            second = null;
+        }
+    }
+}
+
+//pair배열의 카드 두개 체크
+function check(){
+    if((0<=first && first<=12 && (26 + first != second)) ||
+      (13<=first && first<=25 && (26 + first != second)) ||
+      (26<=first && first<=38 && (first - 26 != second)) ||
+      (39<=first && first<=51 && (first - 26 != second)))
+            goback();
+    else
+        go(first, second);
+}
+
+//맞지않는 두 pair를 다시 뒤집음
+function goback(){
+    document.getElementsByTagName('img')[first].src = "52.png";
+    document.getElementsByTagName('img')[second].src = "52.png";
+    document.getElementsByTagName('img')[first].id = "card52";
+    document.getElementsByTagName('img')[second].id = "card52";
+    document.getElementById('score').value -= 1;
+}
+
+let alreadyPair = [];
+
+//맞는 pair는 뒤집지않고 점수만 넣자.
+function go(first, second){
+    alreadyPair.push(first);
+    alreadyPair.push(second);
+    document.getElementById('score').value = document.getElementById('score').value*1 + 5;
+    goal++;
+
+    if(goal==26)
+        alert("축하합니다! 당신이 이겼어요!\n당신의 점수는" + document.getElementById('score').value + "점입니다!");
+}
+
+</script>
+
+
+</html>

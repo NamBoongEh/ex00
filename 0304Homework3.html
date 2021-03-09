@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    img{
+        width : 80px;
+        height: 120px;
+    }
+    input{
+        width : 50px;
+        height : 30px;
+        font-size: large;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <button name="show" onclick="show()">보이기</button>
+    <button name="flip" onclick="flip()">뒤집기</button>
+    <button name="shuffle" onclick="shuffle()">섞어섞어섞림판!</button>
+    점수판 <input id="score" value=0 readonly>
+    <br>
+    <br>
+    <div id="board"></div>
+</body>
+
+<script>
+//1. 카드를 생성한다.
+//2. shuffle 버튼을 누르면 카드를 섞는다.
+//3. flip을 누르면 섞인 상태에서 카드를 뒤집는다.
+
+
+// 카드 초기 순서를 담을 배열 생성
+let cardNum = [];
+let goal = 0;
+
+window.onload = function(){
+    // 카드 생성
+    for(let i=0; i<52; i++){
+        cardNum[i] = i;    
+    }
+    makeBoard()
+}
+
+function makeBoard(){
+    let temp = "";
+    for(let i=0; i<cardNum.length; i++){
+        if(i%13==0 && i!=0)
+            temp += "<br>";
+        temp+= "<img id=card" + cardNum[i] + " src="+ cardNum[i] +".png onclick='flipcard(" + cardNum[i] + ")' padding=3px>" + " ";
+    }
+    document.getElementById("board").innerHTML = temp;
+}
+
+// 카드 뒷면으로 뒤집기
+function flip(){
+    let imgArr = document.getElementsByTagName('img');
+
+    for(let i=0; i<cardNum.length; i++){
+        imgArr[i].src = "52.png";
+        imgArr[i].id = "card52";
+    }
+}
+
+// 카드 섞기
+function shuffle(){
+    reset();
+    cardNum.sort((a,b)=>Math.random()-0.5)
+    show();
+
+}
+
+// 섞인채 그대로 카드 보이기
+function show(){
+    let imgArr = document.getElementsByTagName('img');
+    
+    for(let i=0; i<cardNum.length; i++){
+        imgArr[i].src = cardNum[i] + ".png"; 
+        imgArr[i].id = "card" + cardNum[i];
+    }
+}
+
+//카드 넘길때 담을 두개의 배열
+let pair = new Array(2);
+
+// 클릭한 카드를 넘기기
+function flipcard(open){
+    let imgArr = document.getElementsByTagName('img');
+
+    if(imgArr[open].id === "card52"){
+        imgArr[open].src = cardNum[open] + ".png";  
+        imgArr[open].id = "card" + cardNum[open];  
+
+        if(pair[0] == null)
+            pair[0] = cardNum[open];
+        else if(pair[1]== null)
+            pair[1] = cardNum[open];
+        else{
+            check();
+            pair[0] = cardNum[open];
+            pair[1] = null;
+        }
+    }
+}
+
+//pair배열의 카드 두개 체크
+function check(){
+    ((0<=pair[0] && pair[0]<=12 && (26 + pair[0] != pair[1])) ||
+    (13<=pair[0] && pair[0]<=25 && (26 + pair[0] != pair[1])) ||
+    (26<=pair[0] && pair[0]<=38 && (pair[0] - 26 != pair[1])) ||
+    (39<=pair[0] && pair[0]<=51 && (pair[0] - 26 != pair[1])))
+    ? goback() : go();
+}
+
+//맞지않는 두 pair를 다시 뒤집음
+function goback(){
+
+    for(let i=0; i<=1; i++){
+        document.getElementById('card' + pair[i]).src = "52.png";
+        document.getElementById('card' + pair[i]).id = "card52";
+    }
+    document.getElementById('score').value -= 1;
+}
+
+//맞춘 카드를 담을 배열
+let alreadyPair = [];
+
+//맞는 카드쌍을 배열에 담고 점수 계산
+function go(){
+    let finalScore = document.getElementById('score');
+    
+    for(let i=0; i<pair.length; i++)
+        alreadyPair.push(pair[i]);
+
+    finalScore.value = finalScore.value*1 + 5;
+    goal++;
+
+    if(goal==26)
+        alert("축하합니다! 당신이 이겼어요!\n당신의 점수는" + finalScore.value + "점입니다!");
+}
+
+//리셋시키기
+function reset(){
+    alreadyPair = [];
+    goal = 0;
+    document.getElementById('score').value = 0;
+}
+
+</script>
+
+
+</html>
