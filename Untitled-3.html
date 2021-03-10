@@ -1,0 +1,42 @@
+<!DOCTYPE h.tml>
+<html lang="en">
+<head>
+    <script src="http://code.jquery.com/jquery-1.7.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>지금 내 배고픔을....</p>
+        <h1>150</h1>
+        <textarea cols="70" rows="5"></textarea>
+    </div>
+</body>
+<script>
+    //1. 글자를 작성한다.
+    //2. 150자 이내면 글자는 입력된다.
+    //3. 150자 초과면 글자는 더이상 입력되지않는다.
+
+    $(document).ready(function(event){
+        $('textarea').keyup(function(){
+            //남은 글자 수 세기
+            var content = $(this).text();
+            var inputLength = $(this).val().length;
+            var remain = 150 - inputLength;
+
+            $('h1').html(remain);
+
+            if(remain<=0){
+                
+            }
+            43
+
+            //문서 객체에 입력
+            
+        });
+    });
+</script>
+</html>
